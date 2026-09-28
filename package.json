@@ -1,0 +1,10 @@
+{
+  "name": "dropwise",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "description": "Watch and compare System One models, one falling block at a time.",
+  "scripts": { "start": "node src/server.mjs", "test": "node --test tests/*.test.mjs", "evaluate": "node src/evaluate.mjs", "review": "node src/evaluate.mjs --review" },
+  "engines": { "node": ">=22" }
+}

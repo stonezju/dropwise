@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f2ec">
+  <title>Dropwise</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath fill='%23ee6035' d='M2 2h16v16H2zm20 0h16v16H22zm0 20h16v16H22z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/style.css"><script type="module" src="/app.js"></script>
+</head>
+<body>
+  <main>
+    <div class="workspace">
+      <aside class="setup panel">
+        <div class="section-heading"><h2>Dropwise</h2><span class="pill">MODEL SETTINGS</span></div>
+        <label for="provider">Model</label><select id="provider"><option value="jev">Jev · TypeSafe</option><option value="custom">Custom · System One compatible</option></select>
+        <p id="provider-help" class="field-note">Enter your key to start. One model request per piece.</p>
+        <fieldset id="api-fields"><legend class="sr-only">API settings</legend>
+          <label for="api-key">API Key <span>Page memory only</span></label><input id="api-key" type="password" autocomplete="off" placeholder="Optional for unauthenticated services" maxlength="4096">
+          <label for="endpoint">API Base URL</label><input id="endpoint" type="url" value="https://api.typesafe.ai" spellcheck="false" autocomplete="off">
+          <label for="model">Model ID</label><input id="model" value="jev-latest" spellcheck="false" autocomplete="off" maxlength="120">
+          <label for="timeout">Request timeout</label><select id="timeout"><option value="15000">15 seconds</option><option value="30000">30 seconds</option><option value="60000">60 seconds</option></select>
+          <button id="check" class="secondary full">Test connection <span>↗</span></button><p id="check-message" class="field-note" aria-live="polite">Uses POST /v1/systemone. Testing makes one model request.</p>
+        </fieldset>
+        <div class="record-actions"><button id="export" class="secondary" disabled>Export run</button></div>
+        <p class="field-note">Export before starting a new game or refreshing.</p>
+      </aside>
+      <section class="arena" aria-label="Game area">
+        <div class="arena-heading"><span><i class="live-dot"></i><b id="player-label">jev-latest</b></span><span id="status" role="status">Ready</span></div>
+        <div class="game-stage"><div class="board-shell"><canvas id="board" width="600" height="1200" aria-label="10-column, 20-row board"></canvas><div id="clear-event" role="status" hidden></div><div id="board-overlay"><h2>Ready</h2><p>Configure a model to start</p></div></div><div class="board-rail"><span class="rail-label">Next</span><canvas id="next-piece" width="160" height="120" aria-label="Next"></canvas></div></div>
+        <div class="watch-options"><label for="speed">Playback</label><select id="speed"><option value="0">Fast</option><option value="1">1×</option><option value="2" selected>2×</option><option value="4">4×</option><option value="8">8×</option></select><span id="pace-note">Preview → drop → clear</span></div>
+        <div class="phase-track" aria-label="Decision cycle"><span data-phase="thinking">01 Think</span><span data-phase="selected">02 Choose</span><span data-phase="placing">03 Drop</span><span data-phase="clearing">04 Clear</span></div>
+        <div class="arena-controls"><button id="start" class="primary">▶ Start</button><button id="pause" class="arena-button" disabled>Ⅱ Pause</button><button id="step" class="arena-button">Step ↳</button><button id="reset" class="arena-button" title="Start a new game and clear the current record">↻ New game</button></div>
+        <div class="arena-footer"><span id="phase-description">Click Start to play.</span><button id="finish" disabled>Finish run</button></div>
+      </section>
+      <aside class="inspector">
+        <section class="panel telemetry"><div class="section-heading"><h2>Run metrics</h2><span id="run-kind" class="pill">Model API</span></div>
+          <div class="score-block"><span>Lines cleared</span><strong id="lines">0</strong><div class="score-detail">SCORE <b id="score">0</b></div></div>
+          <div class="metrics"><div><span>Pieces placed</span><b><span id="placed">0</span></b></div><div><span>API latency P50</span><b id="latency-p50">—</b></div><div><span>API latency P95</span><b id="latency-p95">—</b></div><div><span>Active time</span><b id="elapsed">0.0<small> s</small></b></div></div>
+          <div class="token-metrics"><div><span>Input tokens</span><b id="tokens-input">—</b></div><div><span>Output tokens</span><b id="tokens-output">—</b></div><div><span>Total tokens</span><b id="tokens-total">—</b></div></div>
+          <p id="token-note" class="field-note">Tokens: not reported yet.</p>
+          <div class="request-count"><span>Requests / errors / cancelled</span><b id="request-count">0 / 0 / 0</b></div>
+          <p id="timing-note" class="field-note">API latency includes network time; active time also includes animation.</p>
+        </section>
+        <section class="panel decision"><div class="section-heading"><h2>Latest decision</h2></div><div id="decision-content"><div class="empty-decision">↳</div><p class="field-note">Waiting for the first decision.</p></div><div id="error-message" role="alert" hidden></div><details><summary>View decision data</summary><pre id="decision-data">Not started.</pre></details></section>
+      </aside>
+    </div>
+  </main>
+</body>
+</html>
